@@ -1,4 +1,3 @@
-```markdown
 # Início Rápido: Docker Compose e Ruby on Rails
 
 Este guia mostra como usar o **Docker Compose** para configurar e executar
