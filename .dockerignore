@@ -1,0 +1,27 @@
+# Ignora a pasta do Git
+.git
+.gitignore
+
+# Ignora config do bundler local
+.bundle
+
+# Arquivos e diretórios de log e tmp
+log/*
+tmp/*
+!log/.keep
+!tmp/.keep
+
+# Arquivos de credenciais, chaves, segredos
+.env*
+config/master.key
+config/credentials/*.key
+
+# Node modules (se usar npm/yarn)
+node_modules
+
+# Caso use vendor/cache para gems vendorizadas
+vendor/bundle
+
+# Dockerfiles e afins (opcional)
+Dockerfile*
+.dockerignore

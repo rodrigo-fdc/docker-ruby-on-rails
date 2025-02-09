@@ -1,0 +1,37 @@
+services:
+  db:
+    image: postgres:15-alpine
+    # Variáveis de ambiente para inicializar o Postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mysecretpassword
+    # Mapeamento de volume para persistência dos dados
+    volumes:
+      - ./tmp/db-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    # Montamos o diretório local no contêiner para que as mudanças sejam refletidas
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    # Dependência do banco de dados
+    depends_on:
+      - db
+    environment:
+      # Rails usará "development" como padrão se não definido,
+      # mas podemos setar explicitamente se quisermos
+      RAILS_ENV: development
+      # Configurações do banco
+      DATABASE_HOST: db
+      DATABASE_USERNAME: postgres
+      DATABASE_PASSWORD: mysecretpassword
+    # Antes de subir o servidor, executamos db:create e db:migrate.
+    # Ajuste conforme sua necessidade (db:prepare é outra opção).
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+
